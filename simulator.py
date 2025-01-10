@@ -189,13 +189,15 @@ def simulation(simulation_time, num_servers, p_list, queue_sized, service_rates,
         server.process_event(event)
 
     # Results
-    num_customers_served, num_customers_dropped, max_t_end, avg_wait_time, avg_service_time = server.get_stats()
+    # num_customers_served, num_customers_dropped, max_t_end, avg_wait_time, avg_service_time = server.get_stats()
 
-    print(f"Number of customers served: {num_customers_served}")
-    print(f"Number of customers dropped: {num_customers_dropped}")
-    print(f"Max time: {max_t_end}")
-    print(f"Average wait time: {avg_wait_time}")
-    print(f"Average service time: {avg_service_time}")
+    # print(f"Number of customers served: {num_customers_served}")
+    # print(f"Number of customers dropped: {num_customers_dropped}")
+    # print(f"Max time: {max_t_end}")
+    # print(f"Average wait time: {avg_wait_time}")
+    # print(f"Average service time: {avg_service_time}")
+
+    print(*server.get_stats())
 
 if __name__ == "__main__":
     if len(sys.argv) < 6:
@@ -220,7 +222,7 @@ if __name__ == "__main__":
         print("Usage: ./simulator T M P_1 P_2 ... P_M λ Q_1 Q_2 ... Q_M μ_1 μ_2 ... μ_M")
         sys.exit(1)
 
-    # Previous parameters (commented out)
+    # parameters for testing
     # simulation_time = 50000
     # num_servers = 2
     # p_list = [0.5, 0.5]
