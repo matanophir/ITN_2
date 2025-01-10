@@ -1,6 +1,7 @@
 import random
 import heapq
 import numpy as np
+import sys
 
 # Events
 ARRIVAL = 1
@@ -197,13 +198,34 @@ def simulation(simulation_time, num_servers, p_list, queue_sized, service_rates,
     print(f"Average service time: {avg_service_time}")
 
 if __name__ == "__main__":
+    if len(sys.argv) < 6:
+        print("Usage: ./simulator T M P_1 P_2 ... P_M λ Q_1 Q_2 ... Q_M μ_1 μ_2 ... μ_M")
+        sys.exit(1)
 
-    # Parameters
-    simulation_time = 50000
-    num_servers = 2
-    p_list = [0.5, 0.5]
-    queue_sized = [1000, 1000]
-    service_rates = [2.0, 2.0]
-    arrival_rate = 1.0
+    try:
+        # Parameters from command line
+        simulation_time = float(sys.argv[1])
+        num_servers = int(sys.argv[2])
+        p_list = [float(sys.argv[i]) for i in range(3, 3 + num_servers)]
+        arrival_rate = float(sys.argv[3 + num_servers])
+        queue_sized = [int(sys.argv[i]) for i in range(4 + num_servers, 4 + 2 * num_servers)]
+        service_rates = [float(sys.argv[i]) for i in range(4 + 2 * num_servers, 4 + 3 * num_servers)]
+
+        # Check lengths
+        if len(p_list) != num_servers or len(queue_sized) != num_servers or len(service_rates) != num_servers:
+            raise ValueError("The number of probabilities, queue sizes, and service rates must match the number of servers.")
+
+    except ValueError as e:
+        print(f"Input error: {e}")
+        print("Usage: ./simulator T M P_1 P_2 ... P_M λ Q_1 Q_2 ... Q_M μ_1 μ_2 ... μ_M")
+        sys.exit(1)
+
+    # Previous parameters (commented out)
+    # simulation_time = 50000
+    # num_servers = 2
+    # p_list = [0.5, 0.5]
+    # queue_sized = [1000, 1000]
+    # service_rates = [2.0, 2.0]
+    # arrival_rate = 1.0
 
     simulation(simulation_time, num_servers, p_list, queue_sized, service_rates, arrival_rate)
