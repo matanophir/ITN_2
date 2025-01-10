@@ -65,9 +65,9 @@ class MM1Queue:
 def simulation(arrival_rate=1.0, service_rate=2.0, simulation_time=5.0, max_queue_size=1000, seed=None):
 
     # Parameters
-    arrival_rate = 1000.0  # lambda
-    service_rate = 2000.0  # mu
-    simulation_time = 500.0  # Total simulation time
+    arrival_rate = 1.0  # lambda
+    service_rate = 2.0  # mu
+    simulation_time = 50000  # Total simulation time
     max_queue_size = 1000  # Maximum queue size
     
     if (seed):

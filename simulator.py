@@ -6,7 +6,6 @@ import numpy as np
 ARRIVAL = 1
 DEPARTURE = 2
 
-task_id =0
 
 class Event:
     def __init__(self, event_time, event_type, to = None):
@@ -22,6 +21,10 @@ class Task: #TODO: should assert task.id == event.task_id?
         self.arrival_time = arrival_time
         self.before_service = None
         self.after_service = None
+
+def get_next_time(current_time, rate):
+    return current_time + random.expovariate(rate)
+
 
 class MM1Queue:
     def __init__(self, id,  max_size, service_rate, event_list):
@@ -58,8 +61,8 @@ class MM1Queue:
                 self.busy = True
 
                 #handle immediately when empty
-                service_time = random.expovariate(self.service_rate)
-                event = Event(current_time + service_time, DEPARTURE, to = self.id)
+                after_service_time = get_next_time(current_time, self.service_rate)
+                event = Event(after_service_time, DEPARTURE, to=self.id)
                 heapq.heappush(self.event_list, event)
 
                 task.before_service = current_time
@@ -87,10 +90,10 @@ class MM1Queue:
                     self.busy = False
                 else:
                     # handle next task
-                    service_time = random.expovariate(self.service_rate)
+                    after_service_time = get_next_time(current_time, self.service_rate) 
                     self.queue[0].before_service = current_time
 
-                    event = Event(current_time + service_time, DEPARTURE,to = self.id)
+                    event = Event(after_service_time, DEPARTURE, to=self.id)
                     heapq.heappush(self.event_list, event)
             else:
                 print("Error: Queue is empty")
@@ -167,7 +170,7 @@ def simulation(simulation_time, num_servers, p_list, queue_sized, service_rates,
 
 
     # set the first event
-    event = Event(random.expovariate(arrival_rate), ARRIVAL)
+    event = Event(get_next_time(current_time, arrival_rate), ARRIVAL)
     heapq.heappush(event_list, event)
 
     while event_list:
@@ -177,9 +180,9 @@ def simulation(simulation_time, num_servers, p_list, queue_sized, service_rates,
 
         # create new arrival event if needed
         if event.type == ARRIVAL and current_time < simulation_time: 
-            next_arrival = current_time + random.expovariate(arrival_rate)
-            event = Event(next_arrival, ARRIVAL)
-            heapq.heappush(event_list, event)
+            next_arrival = get_next_time(current_time, arrival_rate)
+            new_event = Event(next_arrival, ARRIVAL)
+            heapq.heappush(event_list, new_event)
 
 
         server.process_event(event)
@@ -196,7 +199,7 @@ def simulation(simulation_time, num_servers, p_list, queue_sized, service_rates,
 if __name__ == "__main__":
 
     # Parameters
-    simulation_time = 5
+    simulation_time = 50000
     num_servers = 2
     p_list = [0.5, 0.5]
     queue_sized = [1000, 1000]
