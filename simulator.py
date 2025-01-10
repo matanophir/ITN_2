@@ -1,6 +1,5 @@
 import random
 import heapq
-import numpy as np
 import sys
 
 # Events
@@ -114,7 +113,7 @@ class LoadBalancer:
         self.queues = [MM1Queue(i, queue_sizes[i] + 1, service_rates[i], event_list) for i in range(num_servers)]
 
     def _select_queue(self):
-        return np.random.choice(self.queues, p=self.p_list)
+        return random.choices(self.queues, weights=self.p_list, k=1)[0]
     
     def process_event(self, event):
         event_time = event.time
