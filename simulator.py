@@ -216,6 +216,10 @@ if __name__ == "__main__":
         if len(p_list) != num_servers or len(queue_sized) != num_servers or len(service_rates) != num_servers:
             raise ValueError("The number of probabilities, queue sizes, and service rates must match the number of servers.")
 
+        # Check if probabilities sum up to 1
+        if not abs(sum(p_list) - 1.0) < 1e-6:
+            raise ValueError("The probabilities must sum up to 1.")
+
     except ValueError as e:
         print(f"Input error: {e}")
         print("Usage: ./simulator T M P_1 P_2 ... P_M λ Q_1 Q_2 ... Q_M μ_1 μ_2 ... μ_M")
