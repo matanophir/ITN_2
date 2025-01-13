@@ -220,7 +220,7 @@ if __name__ == "__main__":
         if not abs(sum(p_list) - 1.0) < 1e-6:
             raise ValueError("The probabilities must sum up to 1.")
 
-    except ValueError as e:
+    except Exception as e:
         print(f"Input error: {e}")
         print("Usage: ./simulator T M P_1 P_2 ... P_M λ Q_1 Q_2 ... Q_M μ_1 μ_2 ... μ_M")
         sys.exit(1)
