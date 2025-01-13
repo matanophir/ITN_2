@@ -205,6 +205,7 @@ if __name__ == "__main__":
 
     try:
         # Parameters from command line
+        
         simulation_time = float(sys.argv[1])
         num_servers = int(sys.argv[2])
         p_list = [float(sys.argv[i]) for i in range(3, 3 + num_servers)]
